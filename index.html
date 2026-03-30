@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NearNest — The app your street has been waiting for.</title>
+  <meta name="description" content="NearNest is a hyper-local neighborhood marketplace where neighbors share, sell, and give away items — verified by home address, not phone number."/>
+  <meta property="og:title" content="NearNest — The app your street has been waiting for."/>
+  <meta property="og:description" content="Claim your home. Trade with neighbors. No phone number required."/>
+  <meta property="og:image" content="https://nearnest.boghar.com/og.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #FF385C;
+      --primary-dark: #E31C5F;
+      --dark: #1a1a1a;
+      --warm: #2d2018;
+      --cream: #fdf8f3;
+      --soft: #f5ede4;
+      --muted: #8a7060;
+      --verified: #008489;
+      --card-bg: #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 48px;
+      background: rgba(253, 248, 243, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,56,92,0.08);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .nav-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(255,56,92,0.3);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 120px 48px 80px;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-left {
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,56,92,0.08);
+      border: 1px solid rgba(255,56,92,0.15);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(44px, 5vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      color: var(--dark);
+      margin-bottom: 24px;
+      animation: fadeUp 0.6s ease 0.1s both;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-weight: 400;
+      max-width: 440px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.6s ease 0.2s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s ease 0.3s both;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(255,56,92,0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,56,92,0.35);
+    }
+
+    .btn-ghost {
+      color: var(--dark);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .btn-ghost:hover { opacity: 1; }
+
+    .hero-trust {
+      margin-top: 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      animation: fadeUp 0.6s ease 0.4s both;
+    }
+
+    .trust-avatars {
+      display: flex;
+    }
+
+    .trust-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--cream);
+      margin-left: -8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: white;
+    }
+
+    .trust-avatar:first-child { margin-left: 0; }
+    .ta1 { background: #FF385C; }
+    .ta2 { background: #008489; }
+    .ta3 { background: #FF9500; }
+    .ta4 { background: #5856D6; }
+
+    .trust-text {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .trust-text strong {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* HERO RIGHT — Phone mockup */
+    .hero-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      animation: fadeUp 0.8s ease 0.2s both;
+    }
+
+    .phone-wrap {
+      position: relative;
+    }
+
+    .phone-blob {
+      position: absolute;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(255,56,92,0.12) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .phone-frame {
+      position: relative;
+      z-index: 1;
+      width: 280px;
+      background: var(--dark);
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.25),
+        0 0 0 1px rgba(255,255,255,0.05),
+        inset 0 0 0 1px rgba(255,255,255,0.08);
+    }
+
+    .phone-screen {
+      background: white;
+      border-radius: 34px;
+      overflow: hidden;
+    }
+
+    .phone-status {
+      background: white;
+      padding: 12px 20px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .phone-header {
+      padding: 8px 14px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .phone-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .phone-location-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid #e0e0e0;
+      border-radius: 100px;
+      padding: 3px 8px;
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .phone-chips {
+      display: flex;
+      gap: 6px;
+      padding: 8px 14px;
+      overflow: hidden;
+    }
+
+    .phone-chip {
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 9px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .phone-chip.active {
+      background: var(--dark);
+      color: white;
+    }
+
+    .phone-chip.inactive {
+      border: 1px solid #e0e0e0;
+      color: #888;
+    }
+
+    .phone-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 10px 10px;
+    }
+
+    .phone-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+
+    .phone-card-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      position: relative;
+    }
+
+    .phone-card-badge {
+      position: absolute;
+      bottom: 5px; left: 5px;
+      background: white;
+      border-radius: 100px;
+      padding: 2px 6px;
+      font-size: 7px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      color: var(--dark);
+    }
+
+    .phone-card-body {
+      padding: 6px 7px 7px;
+    }
+
+    .phone-card-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 2px;
+    }
+
+    .phone-card-meta {
+      font-size: 8px;
+      color: #888;
+    }
+
+    .phone-card-price {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--dark);
+      text-align: right;
+      margin-top: 2px;
+    }
+
+    .phone-card-free {
+      color: var(--primary);
+    }
+
+    /* Floating badges */
+    .float-badge {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      padding: 10px 14px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .float-badge-1 {
+      top: 20px; right: -60px;
+      animation-delay: 0s;
+    }
+
+    .float-badge-2 {
+      bottom: 60px; left: -70px;
+      animation-delay: 1.5s;
+    }
+
+    .float-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .float-icon.green { background: #e8f5e9; }
+    .float-icon.teal { background: #e0f7fa; }
+
+    .float-text-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .float-text-sub {
+      font-size: 10px;
+      color: #888;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--primary);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-right: 48px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      letter-spacing: 0.5px;
+    }
+
+    .marquee-dot {
+      width: 4px; height: 4px;
+      background: rgba(255,255,255,0.5);
+      border-radius: 50%;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* HOW IT WORKS */
+    .section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      color: var(--dark);
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+
+    .section-subtitle {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 64px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .step-card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 32px;
+      position: relative;
+      border: 1px solid rgba(0,0,0,0.06);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+    }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      font-weight: 900;
+      color: rgba(255,56,92,0.08);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .step-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .step-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* FEATURES */
+    .features-bg {
+      background: var(--soft);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+    }
+
+    .feature-card:hover { transform: translateY(-3px); }
+
+    .feature-card.wide {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .feature-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .fi-red { background: rgba(255,56,92,0.1); }
+    .fi-teal { background: rgba(0,132,137,0.1); }
+    .fi-green { background: rgba(52,199,89,0.1); }
+    .fi-orange { background: rgba(255,149,0,0.1); }
+
+    .feature-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .no-phone-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,56,92,0.06);
+      border: 1px solid rgba(255,56,92,0.15);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-top: 16px;
+    }
+
+    /* WHAT TO SHARE */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 48px;
+    }
+
+    .cat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 24px;
+      text-align: center;
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.3s;
+      cursor: default;
+    }
+
+    .cat-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(255,56,92,0.1);
+    }
+
+    .cat-emoji { font-size: 36px; display: block; margin-bottom: 12px; }
+
+    .cat-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+
+    .cat-example {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      background: var(--dark);
+      padding: 100px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-blob {
+      position: absolute;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,56,92,0.15) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .cta-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      color: white;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .cta-title em {
+      font-style: italic;
+      color: var(--primary);
+    }
+
+    .cta-subtitle {
+      font-size: 17px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 48px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-coming-soon {
+      background: white;
+      color: var(--dark);
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s;
+    }
+
+    .btn-coming-soon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(255,255,255,0.2);
+    }
+
+    .coming-soon-pill {
+      background: var(--primary);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.5px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 40px 48px;
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: white; }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 100px 24px 60px;
+        gap: 60px;
+        text-align: center;
+      }
+
+      .hero-subtitle { margin: 0 auto 40px; }
+      .hero-actions { justify-content: center; }
+      .hero-trust { justify-content: center; }
+      .hero-right { order: -1; }
+
+      .float-badge-1 { right: -20px; top: -10px; }
+      .float-badge-2 { left: -20px; bottom: 20px; }
+
+      .section { padding: 64px 24px; }
+
+      .steps-grid { grid-template-columns: 1fr; }
+      .features-grid { grid-template-columns: 1fr; }
+      .feature-card.wide { grid-column: span 1; grid-template-columns: 1fr; }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+
+      .cta-section { padding: 80px 24px; }
+
+      footer {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🏠</div>
+      <span class="nav-logo-text">NearNest</span>
+    </a>
+    <a href="#waitlist" class="nav-cta">Get Early Access</a>
+  </nav>
+
+  <!-- HERO -->
+  <section style="background: var(--cream);">
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-eyebrow">🏡 Now in early access</div>
+        <h1 class="hero-title">
+          The app your<br/>
+          street has been<br/>
+          <em>waiting for.</em>
+        </h1>
+        <p class="hero-subtitle">
+          NearNest is a hyper-local marketplace where neighbors share, sell, and give away items — verified by home address, not phone number.
+        </p>
+        <div class="hero-actions">
+          <a href="#waitlist" class="btn-primary">
+            🏠 Claim Your Home
+          </a>
+          <a href="#how" class="btn-ghost">
+            See how it works →
+          </a>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-avatars">
+            <div class="trust-avatar ta1">V</div>
+            <div class="trust-avatar ta2">S</div>
+            <div class="trust-avatar ta3">M</div>
+            <div class="trust-avatar ta4">R</div>
+          </div>
+          <div class="trust-text">
+            <strong>No phone number required.</strong><br/>
+            Just your email and your front door.
+          </div>
+        </div>
+      </div>
+
+      <!-- PHONE MOCKUP -->
+      <div class="hero-right">
+        <div class="phone-wrap">
+          <div class="phone-blob"></div>
+
+          <!-- Floating badge 1 -->
+          <div class="float-badge float-badge-1">
+            <div class="float-icon teal">✓</div>
+            <div>
+              <div class="float-text-title">Verified Home</div>
+              <div class="float-text-sub">2 houses away</div>
+            </div>
+          </div>
+
+          <!-- Floating badge 2 -->
+          <div class="float-badge float-badge-2">
+            <div class="float-icon green">🌿</div>
+            <div>
+              <div class="float-text-title">New listing nearby</div>
+              <div class="float-text-sub">Monstera cutting — Free</div>
+            </div>
+          </div>
+
+          <div class="phone-frame">
+            <div class="phone-screen">
+              <!-- Status bar -->
+              <div class="phone-status">
+                <span>9:41</span>
+                <span>●●● 5G ■</span>
+              </div>
+              <!-- App header -->
+              <div class="phone-header">
+                <span class="phone-logo">NearNest</span>
+                <div class="phone-location-pill">
+                  📍 Within 1 mile
+                </div>
+              </div>
+              <!-- Filter chips -->
+              <div class="phone-chips">
+                <span class="phone-chip active">All</span>
+                <span class="phone-chip inactive">Homegrown</span>
+                <span class="phone-chip inactive">Free</span>
+                <span class="phone-chip inactive">Plants</span>
+              </div>
+              <!-- Two column grid -->
+              <div class="phone-grid">
+                <!-- Card 1 -->
+                <div class="phone-card">
+                  <div class="phone-card-img" style="background: linear-gradient(135deg,#fff3e0,#ffe0b2);">
+                    🍋
+                    <div class="phone-card-badge">✓ Verified</div>
+                  </div>
+                  <div class="phone-card-body">
+                    <div class="phone-card-title">Meyer Lemons</div>
+                    <div class="phone-card-meta">2 houses away</div>
+                    <div class="phone-card-price phone-card-free">FREE</div>
+                  </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="phone-card">
+                  <div class="phone-card-img" style="background: linear-gradient(135deg,#e8f5e9,#c8e6c9);">
+                    🌿
+                  </div>
+                  <div class="phone-card-body">
+                    <div class="phone-card-title">Monstera Cutting</div>
+                    <div class="phone-card-meta">Around corner</div>
+                    <div class="phone-card-price">$5</div>
+                  </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="phone-card">
+                  <div class="phone-card-img" style="background: linear-gradient(135deg,#fce4ec,#f8bbd0);">
+                    🍞
+                    <div class="phone-card-badge">✓ Verified</div>
+                  </div>
+                  <div class="phone-card-body">
+                    <div class="phone-card-title">Banana Bread</div>
+                    <div class="phone-card-meta">5 min walk</div>
+                    <div class="phone-card-price">$6</div>
+                  </div>
+                </div>
+                <!-- Card 4 — Request -->
+                <div class="phone-card">
+                  <div class="phone-card-img" style="background: #FFF0F2; color: var(--primary);">
+                    🔍
+                  </div>
+                  <div class="phone-card-body">
+                    <div class="phone-card-title" style="color:var(--primary); font-size:8px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:3px;">Looking for</div>
+                    <div class="phone-card-title">Hibiscus cutting</div>
+                    <div class="phone-card-meta">0.3 miles away</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">🍋 Backyard Lemons <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🌿 Monstera Cuttings <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🍞 Homemade Sourdough <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🪴 Potted Succulents <span class="marquee-dot"></span></span>
+      <span class="marquee-item">📚 Kids Books <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🛋️ Vintage Chair <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🥚 Farm Fresh Eggs <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🌸 Hibiscus Cuttings <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🍋 Backyard Lemons <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🌿 Monstera Cuttings <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🍞 Homemade Sourdough <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🪴 Potted Succulents <span class="marquee-dot"></span></span>
+      <span class="marquee-item">📚 Kids Books <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🛋️ Vintage Chair <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🥚 Farm Fresh Eggs <span class="marquee-dot"></span></span>
+      <span class="marquee-item">🌸 Hibiscus Cuttings <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section">
+      <div class="reveal">
+        <p class="section-eyebrow">How it works</p>
+        <h2 class="section-title">Three steps to your<br/>neighborhood marketplace</h2>
+        <p class="section-subtitle">From idea to first trade in minutes. No phone number, no complications.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card reveal">
+          <div class="step-num">01</div>
+          <span class="step-icon">📧</span>
+          <h3 class="step-title">Sign up with email</h3>
+          <p class="step-desc">No phone number required. Just your email address — or sign in with Apple or Google in one tap.</p>
+        </div>
+        <div class="step-card reveal" style="transition-delay: 0.1s">
+          <div class="step-num">02</div>
+          <span class="step-icon">🏠</span>
+          <h3 class="step-title">Claim your home</h3>
+          <p class="step-desc">Enter the verification code from your NearNest postcard, or get vouched for by a verified neighbor on your street.</p>
+        </div>
+        <div class="step-card reveal" style="transition-delay: 0.2s">
+          <div class="step-num">03</div>
+          <span class="step-icon">🤝</span>
+          <h3 class="step-title">Start trading</h3>
+          <p class="step-desc">Post items you have, request things you need. Chat in-app, arrange pickup, and meet your neighbors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-bg">
+    <div class="section">
+      <div class="reveal">
+        <p class="section-eyebrow">Why NearNest</p>
+        <h2 class="section-title">Built different.<br/>For your block.</h2>
+        <p class="section-subtitle">Most marketplaces focus on users. NearNest focuses on homes.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon-wrap fi-red">🏠</div>
+          <h3 class="feature-title">Your home has an identity</h3>
+          <p class="feature-desc">Every house on your street can claim its own verified presence. Your address is your reputation — not just a delivery destination.</p>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.1s">
+          <div class="feature-icon-wrap fi-teal">✓</div>
+          <h3 class="feature-title">Verified by address</h3>
+          <p class="feature-desc">Trust through physical verification. A postcard code or a neighbor's referral means listings come from real homes on your street.</p>
+          <span class="no-phone-badge">🚫 No phone number required</span>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.15s">
+          <div class="feature-icon-wrap fi-green">💬</div>
+          <h3 class="feature-title">In-app chat only</h3>
+          <p class="feature-desc">No sharing phone numbers with strangers. All conversations stay in NearNest — safe, private, and tied to the listing.</p>
+        </div>
+
+        <div class="feature-card reveal" style="transition-delay:0.2s">
+          <div class="feature-icon-wrap fi-orange">🔍</div>
+          <h3 class="feature-title">Post requests too</h3>
+          <p class="feature-desc">Looking for a hibiscus cutting or spare eggs? Post a request and let neighbors come to you. Both supply and demand — on one street.</p>
+        </div>
+
+        <div class="feature-card wide reveal" style="transition-delay:0.1s">
+          <div>
+            <div class="feature-icon-wrap fi-red">📍</div>
+            <h3 class="feature-title">Hyper-local, by design</h3>
+            <p class="feature-desc">NearNest is not a city-wide marketplace. It's your block, your street, your immediate neighbors. Browse items from half a mile to 5 miles — you choose the radius. Everything is meant to be picked up in person, on foot or a short drive away.</p>
+          </div>
+          <div style="background: var(--soft); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">🏡</span>
+              <div>
+                <div style="font-size:13px; font-weight:700; color:var(--dark);">Driveway pickup</div>
+                <div style="font-size:12px; color:var(--muted);">Share address only when you choose to</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">🌱</span>
+              <div>
+                <div style="font-size:13px; font-weight:700; color:var(--dark);">Zero shipping, zero waste</div>
+                <div style="font-size:12px; color:var(--muted);">Everything stays local, in person</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:24px;">👋</span>
+              <div>
+                <div style="font-size:13px; font-weight:700; color:var(--dark);">Meet your actual neighbors</div>
+                <div style="font-size:12px; color:var(--muted);">The ones you've waved at but never met</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT TO SHARE -->
+  <section>
+    <div class="section">
+      <div class="reveal">
+        <p class="section-eyebrow">What neighbors share</p>
+        <h2 class="section-title">From your garden<br/>to your garage.</h2>
+        <p class="section-subtitle">Anything your neighbors might want — and nothing that needs shipping.</p>
+      </div>
+      <div class="categories-grid">
+        <div class="cat-card reveal">
+          <span class="cat-emoji">🌱</span>
+          <div class="cat-name">Homegrown</div>
+          <div class="cat-example">Tomatoes, lemons, herbs</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.05s">
+          <span class="cat-emoji">🪴</span>
+          <div class="cat-name">Plants</div>
+          <div class="cat-example">Cuttings, pots, seeds</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.1s">
+          <span class="cat-emoji">🍞</span>
+          <div class="cat-name">Baked Goods</div>
+          <div class="cat-example">Bread, cookies, jams</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.15s">
+          <span class="cat-emoji">🛋️</span>
+          <div class="cat-name">Furniture</div>
+          <div class="cat-example">Chairs, tables, lamps</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.2s">
+          <span class="cat-emoji">🧸</span>
+          <div class="cat-name">Kids & Toys</div>
+          <div class="cat-example">Books, games, bikes</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.25s">
+          <span class="cat-emoji">👕</span>
+          <div class="cat-name">Clothing</div>
+          <div class="cat-example">Kids clothes, coats</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.3s">
+          <span class="cat-emoji">📚</span>
+          <div class="cat-name">Books & Media</div>
+          <div class="cat-example">Books, DVDs, vinyl</div>
+        </div>
+        <div class="cat-card reveal" style="transition-delay:0.35s">
+          <span class="cat-emoji">🏠</span>
+          <div class="cat-name">Household</div>
+          <div class="cat-example">Tools, kitchenware</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="waitlist">
+    <div class="cta-blob"></div>
+    <p class="cta-eyebrow">Coming soon to iOS & Android</p>
+    <h2 class="cta-title">
+      Your street is waiting.<br/>
+      <em>Claim your home.</em>
+    </h2>
+    <p class="cta-subtitle">
+      NearNest is launching soon. Be the first on your street to claim your home and start trading with neighbors.
+    </p>
+    <div class="cta-actions">
+      <a href="#" class="btn-coming-soon">
+        🍎 App Store
+        <span class="coming-soon-pill">COMING SOON</span>
+      </a>
+      <a href="#" class="btn-coming-soon">
+        🤖 Google Play
+        <span class="coming-soon-pill">COMING SOON</span>
+      </a>
+    </div>
+    <p style="margin-top: 32px; font-size: 13px; color: rgba(255,255,255,0.3);">
+      No phone number required. Ever.
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">NearNest</div>
+    <div class="footer-links">
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="mailto:hello@boghar.com">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Boghar LLC. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
