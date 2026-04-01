@@ -917,15 +917,45 @@
     .btn-coming-soon {
       background: white;
       color: var(--dark);
-      padding: 16px 36px;
-      border-radius: 100px;
-      font-size: 16px;
-      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 600;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       transition: all 0.25s;
+      min-width: 180px;
+    }
+
+    .btn-coming-soon .store-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      fill: var(--dark);
+    }
+
+    .btn-coming-soon .store-label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1px;
+    }
+
+    .btn-coming-soon .store-eyebrow {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .btn-coming-soon .store-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1;
     }
 
     .btn-coming-soon:hover {
@@ -1414,12 +1444,27 @@
 
     <div class="cta-actions">
       <a href="#" class="btn-coming-soon">
-        🍎 App Store
-        <span class="coming-soon-pill">COMING SOON</span>
+        <!-- Apple logo SVG -->
+        <svg class="store-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        <div class="store-label">
+          <span class="store-eyebrow">Coming soon on the</span>
+          <span class="store-name">App Store</span>
+        </div>
       </a>
       <a href="#" class="btn-coming-soon">
-        🤖 Google Play
-        <span class="coming-soon-pill">COMING SOON</span>
+        <!-- Google Play logo SVG -->
+        <svg class="store-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.18 23.76c.3.16.64.2.97.12l11.37-11.37L12 9 3.18 23.76z" fill="#EA4335"/>
+          <path d="M20.47 10.6L17.3 8.78l-3.62 3.62 3.62 3.62 3.2-1.85c.91-.52.91-1.85-.03-2.57z" fill="#FBBC05"/>
+          <path d="M3.18.24C2.86.4 2.63.73 2.63 1.15v21.7c0 .42.23.75.55.91L15.56 12 3.18.24z" fill="#4285F4"/>
+          <path d="M3.18 23.76l.01-.01L15.56 12 12 8.44.18.24c-.01 0-.01 0 0 0L3.18 23.76z" fill="#34A853"/>
+        </svg>
+        <div class="store-label">
+          <span class="store-eyebrow">Coming soon on</span>
+          <span class="store-name">Google Play</span>
+        </div>
       </a>
     </div>
     <p style="margin-top: 32px; font-size: 13px; color: rgba(255,255,255,0.3);">
@@ -1434,6 +1479,14 @@
       <a href="/privacy">Privacy Policy</a>
       <a href="/terms">Terms of Service</a>
       <a href="mailto:hello@boghar.com">Contact</a>
+      <a href="https://www.instagram.com/NearNest_App" target="_blank" rel="noopener" aria-label="NearNest on Instagram" style="display:inline-flex; align-items:center; gap:5px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.55; flex-shrink:0;">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+        </svg>
+        Instagram
+      </a>
     </div>
     <div class="footer-copy">© 2025 Boghar LLC. All rights reserved.</div>
   </footer>
