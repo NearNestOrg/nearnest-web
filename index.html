@@ -848,6 +848,72 @@
       white-space: nowrap;
     }
 
+    /* Excitement chips */
+    .waitlist-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-align: left;
+      margin-bottom: -4px;
+    }
+
+    .waitlist-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-family: 'DM Sans', sans-serif;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: rgba(255,255,255,0.35);
+      color: white;
+    }
+
+    .chip.selected {
+      background: rgba(255,56,92,0.18);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .waitlist-other-box {
+      display: none;
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: white;
+      outline: none;
+      resize: none;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      min-height: 80px;
+    }
+
+    .waitlist-other-box::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .waitlist-other-box:focus {
+      border-color: var(--primary);
+    }
+
     .btn-coming-soon {
       background: white;
       color: var(--dark);
@@ -1311,6 +1377,26 @@
     >
       <input type="text" name="name" placeholder="Your name" autocomplete="name" />
       <input type="email" name="email" placeholder="Your email address" required autocomplete="email" />
+
+      <p class="waitlist-label">What excites you most?</p>
+      <div class="waitlist-chips" id="excitementChips">
+        <div class="chip" data-value="Giving away stuff I no longer need">🎁 Giving away things</div>
+        <div class="chip" data-value="Finding great deals nearby">🤑 Finding deals nearby</div>
+        <div class="chip" data-value="Connecting with my neighbors">🏡 Meeting neighbors</div>
+        <div class="chip" data-value="Reducing waste &amp; being sustainable">♻️ Reducing waste</div>
+        <div class="chip" data-value="other">✏️ Other</div>
+      </div>
+      <textarea
+        class="waitlist-other-box"
+        id="otherBox"
+        name="other_excitement"
+        placeholder="Tell us what excites you…"
+        rows="3"
+      ></textarea>
+
+      <!-- Hidden field carries chip selections -->
+      <input type="hidden" name="excited_about" id="excitedAboutInput" />
+
       <!-- Hidden fields — extra context sent with every submission -->
       <input type="hidden" name="_subject" value="New NearNest Early Access Request" />
       <input type="hidden" name="source" value="nearnest.boghar.com" />
@@ -1353,13 +1439,45 @@
   </footer>
 
   <script>
-    // Early access form — Formspree async submit
+    // Early access form — chip selection + Formspree async submit
     const waitlistForm = document.getElementById('waitlistForm');
     const waitlistSuccess = document.getElementById('waitlistSuccess');
+    const chips = document.querySelectorAll('#excitementChips .chip');
+    const otherBox = document.getElementById('otherBox');
+    const excitedInput = document.getElementById('excitedAboutInput');
+
+    const selectedChips = new Set();
+
+    chips.forEach(function(chip) {
+      chip.addEventListener('click', function() {
+        const val = chip.dataset.value;
+        if (selectedChips.has(val)) {
+          selectedChips.delete(val);
+          chip.classList.remove('selected');
+        } else {
+          selectedChips.add(val);
+          chip.classList.add('selected');
+        }
+
+        // Show/hide the "Other" text box
+        if (selectedChips.has('other')) {
+          otherBox.style.display = 'block';
+          otherBox.focus();
+        } else {
+          otherBox.style.display = 'none';
+          otherBox.value = '';
+        }
+      });
+    });
 
     if (waitlistForm) {
       waitlistForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        // Build the excited_about value from selected chips (excluding raw "other")
+        const selections = Array.from(selectedChips).filter(v => v !== 'other');
+        excitedInput.value = selections.join(', ') || 'Not specified';
+
         const btn = waitlistForm.querySelector('button');
         btn.textContent = 'Sending…';
         btn.disabled = true;
