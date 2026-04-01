@@ -753,6 +753,101 @@
       z-index: 1;
     }
 
+    /* Early access form */
+    .waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 420px;
+      margin: 0 auto 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .waitlist-form input {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 16px 24px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      color: white;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .waitlist-form input::placeholder {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .waitlist-form input:focus {
+      border-color: var(--primary);
+    }
+
+    .waitlist-form button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 100px;
+      padding: 16px 36px;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(255,56,92,0.35);
+      letter-spacing: 0.3px;
+    }
+
+    .waitlist-form button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,56,92,0.45);
+    }
+
+    .waitlist-success {
+      display: none;
+      background: rgba(0,132,137,0.15);
+      border: 1.5px solid rgba(0,132,137,0.4);
+      border-radius: 16px;
+      padding: 20px 28px;
+      max-width: 420px;
+      margin: 0 auto 48px;
+      color: #6dd5d8;
+      font-size: 15px;
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    .waitlist-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 420px;
+      margin: 0 auto 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .waitlist-divider::before,
+    .waitlist-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .waitlist-divider span {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+    }
+
     .btn-coming-soon {
       background: white;
       color: var(--dark);
@@ -1203,8 +1298,34 @@
       <em>Claim your home.</em>
     </h2>
     <p class="cta-subtitle">
-      NearNest is launching soon. Be the first on your street to claim your home and start trading with neighbors.
+      NearNest is launching soon. Drop your email and we'll let you know the moment it's live in your neighborhood.
     </p>
+
+    <!-- Early access form — powered by Formspree -->
+    <!-- Sign up at formspree.io, create a form, and replace YOUR_FORM_ID below -->
+    <form
+      class="waitlist-form"
+      id="waitlistForm"
+      action="https://formspree.io/f/maqlbwjy"
+      method="POST"
+    >
+      <input type="text" name="name" placeholder="Your name" autocomplete="name" />
+      <input type="email" name="email" placeholder="Your email address" required autocomplete="email" />
+      <!-- Hidden fields — extra context sent with every submission -->
+      <input type="hidden" name="_subject" value="New NearNest Early Access Request" />
+      <input type="hidden" name="source" value="nearnest.boghar.com" />
+      <button type="submit">Get Early Access →</button>
+    </form>
+
+    <!-- Success message shown after submit -->
+    <div class="waitlist-success" id="waitlistSuccess">
+      🎉 You're on the list! We'll reach out as soon as NearNest launches in your area.
+    </div>
+
+    <div class="waitlist-divider">
+      <span>or download when available</span>
+    </div>
+
     <div class="cta-actions">
       <a href="#" class="btn-coming-soon">
         🍎 App Store
@@ -1232,6 +1353,38 @@
   </footer>
 
   <script>
+    // Early access form — Formspree async submit
+    const waitlistForm = document.getElementById('waitlistForm');
+    const waitlistSuccess = document.getElementById('waitlistSuccess');
+
+    if (waitlistForm) {
+      waitlistForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = waitlistForm.querySelector('button');
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(waitlistForm.action, {
+            method: 'POST',
+            body: new FormData(waitlistForm),
+            headers: { 'Accept': 'application/json' },
+          });
+
+          if (res.ok) {
+            waitlistForm.style.display = 'none';
+            waitlistSuccess.style.display = 'block';
+          } else {
+            btn.textContent = 'Try again';
+            btn.disabled = false;
+          }
+        } catch {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        }
+      });
+    }
+
     // Scroll reveal
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
